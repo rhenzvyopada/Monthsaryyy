@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="A little handmade surprise — a monthsary love letter, made with love." />
+<title>Happy Monthsary &#10084;</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root{
+  --pink:#f4a7bd;            /* soft pink primary */
+  --pink-deep:#b8436a;       /* accessible rose (5:1+ on cream, white text on it) */
+  --pink-soft:#fce3ea;
+  --cream:#fff8f1;           /* warm background */
+  --cream-deep:#fdeee2;
+  --paper:#fffdf7;           /* letter paper */
+  --heart:#e8758d;           /* pastel red hearts */
+  --heart-deep:#d45c77;
+  --lavender:#c9b8e8;
+  --lavender-deep:#6a5a97;   /* accessible lavender for text */
+  --green:#9ec99a;
+  --green-deep:#5c8a5e;
+  --ink:#5b3a47;             /* body text on cream (7:1+) */
+  --ink-soft:#7a5563;
+  --shadow:0 14px 30px rgba(150, 60, 92, .14);
+  --shadow-soft:0 8px 20px rgba(150, 60, 92, .10);
+  --radius:1.5rem;
+  --font-hand:"Dancing Script","Segoe Script","Bradley Hand",cursive;
+  --font-body:"Quicksand","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  font-family:var(--font-body);
+  font-size:1rem;              /* 16px minimum body text */
+  line-height:1.7;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 500px at 50% -100px, var(--pink-soft), transparent 70%),
+    radial-gradient(900px 500px at 110% 30%, rgba(201,184,232,.28), transparent 60%),
+    radial-gradient(900px 500px at -10% 70%, rgba(244,167,189,.22), transparent 60%),
+    var(--cream);
+  overflow-x:clip;
+}
+body.is-locked{ overflow:hidden; height:100dvh; }
+img{ max-width:100%; display:block; }
+h1,h2,h3{ font-family:var(--font-hand); line-height:1.15; color:var(--pink-deep); margin:0 0 .5rem; font-weight:700; }
+p{ margin:0 0 1rem; }
+button{ font-family:inherit; }
+
+:focus-visible{ outline:3px solid #8a4d63; outline-offset:3px; border-radius:8px; }
+
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section{
+  padding-block:clamp(3.25rem, 10vw, 5.5rem);
+  padding-inline:clamp(1rem, 5vw, 2rem);
+  scroll-margin-top:1rem;
+}
+.section-inner{ max-width:720px; margin-inline:auto; }
+.section-title{ font-size:clamp(1.9rem, 7vw, 2.8rem); text-align:center; }
+.section-sub{ text-align:center; color:var(--ink-soft); max-width:34rem; margin:0 auto 2rem; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  font-size:clamp(1rem, 4.2vw, 1.15rem); font-weight:700;
+  color:#fff; background:linear-gradient(135deg,#c9527c,#b8436a);
+  border:none; border-radius:999px;
+  padding:.9rem 2rem; min-height:48px; min-width:44px;
+  box-shadow:0 10px 24px rgba(184,67,106,.32);
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(184,67,106,.38); }
+.btn:active{ transform:translateY(0) scale(.98); }
+.ghost-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:.95rem; font-weight:600;
+  color:var(--pink-deep); background:rgba(255,255,255,.65);
+  border:2px dashed #d98aa6; border-radius:999px;
+  padding:.55rem 1.25rem; min-height:44px; cursor:pointer;
+  transition:background .2s ease, transform .2s ease;
+}
+.ghost-btn:hover{ background:#fff; transform:translateY(-1px); }
+/* ensure [hidden] wins over our display rules */
+.btn[hidden], .ghost-btn[hidden], .welcome[hidden]{ display:none !important; }
+
+/* ============================================================
+   WELCOME SCREEN
+   ============================================================ */
+.welcome{
+  position:fixed; inset:0; z-index:50;
+  display:flex; align-items:center; justify-content:center;
+  padding:clamp(1.25rem, 6vw, 3rem);
+  text-align:center;
+  background:
+    radial-gradient(900px 480px at 50% 0%, #ffe6ee, transparent 70%),
+    radial-gradient(700px 420px at 10% 100%, rgba(201,184,232,.35), transparent 65%),
+    radial-gradient(700px 420px at 90% 90%, rgba(244,167,189,.30), transparent 65%),
+    var(--cream);
+  opacity:0;
+  animation:welcomeIn .8s ease .1s forwards;
+  transition:opacity .55s ease, visibility .55s ease;
+}
+.welcome.is-gone{ opacity:0; visibility:hidden; pointer-events:none; }
+.welcome-inner{ max-width:26rem; margin-inline:auto; }
+.welcome-art{ width:clamp(180px, 55vw, 260px); margin:0 auto 1.25rem; animation:floaty 6s ease-in-out infinite; }
+.welcome-art svg{ width:100%; height:auto; display:block; }
+.welcome h1{ font-size:clamp(2.2rem, 9vw, 3.4rem); margin-bottom:.4rem; }
+.welcome h1 .name{ color:var(--lavender-deep); }
+.welcome-sub{ font-size:clamp(1rem, 4.4vw, 1.15rem); color:var(--ink-soft); margin-bottom:1.75rem; }
+.welcome .btn{ animation:pulseGlow 2.8s ease-in-out infinite; }
+@keyframes welcomeIn{ from{ opacity:0; transform:translateY(18px);} to{ opacity:1; transform:none;} }
+@keyframes pulseGlow{
+  0%,100%{ box-shadow:0 10px 24px rgba(184,67,106,.32), 0 0 0 0 rgba(232,117,141,.35); }
+  50%{ box-shadow:0 12px 26px rgba(184,67,106,.36), 0 0 0 12px rgba(232,117,141,0); }
+}
+/* ============================================================
+   ENVELOPE
+   ============================================================ */
+.envelope-wrap{ display:flex; flex-direction:column; align-items:center; gap:.9rem; }
+.envelope{
+  position:relative;
+  width:clamp(240px, 74vw, 340px);
+  aspect-ratio:3 / 2;
+  padding:0; border:none; background:none; cursor:pointer;
+  perspective:900px;
+  animation:floaty 5s ease-in-out infinite;
+  border-radius:14px;
+}
+.envelope.is-open{ animation:none; cursor:default; }
+.env-back{
+  position:absolute; inset:0; z-index:1;
+  background:linear-gradient(160deg,#f7bccd,#ef9db8);
+  border-radius:14px; box-shadow:var(--shadow);
+}
+.env-paper{
+  position:absolute; left:6%; right:6%; top:10%; bottom:14%; z-index:2;
+  background:var(--paper); border-radius:8px;
+  box-shadow:0 -6px 14px rgba(0,0,0,.08);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .75s cubic-bezier(.22,.9,.3,1);
+}
+.env-paper-heart{ color:var(--heart); font-size:1.6rem; line-height:1; opacity:.7; }
+.envelope.is-open .env-paper{ transform:translateY(-46%); }
+.env-front{
+  position:absolute; inset:0; z-index:3;
+  background:linear-gradient(200deg,#f6b3c7,#ee94b2);
+  clip-path:polygon(0 0, 50% 44%, 100% 0, 100% 100%, 0 100%);
+}
+.env-flap{
+  position:absolute; left:0; right:0; top:0; height:56%; z-index:4;
+  background:linear-gradient(180deg,#f9c6d6,#f2a4be);
+  clip-path:polygon(0 0, 100% 0, 50% 100%);
+  transform-origin:top center;
+  transform:rotateX(0deg);
+  transition:transform .65s cubic-bezier(.3,.75,.3,1), z-index 0s linear .33s;
+}
+.envelope.is-open .env-flap{ transform:rotateX(180deg); z-index:1; }
+.env-seal{
+  position:absolute; left:50%; top:53%; z-index:5;
+  width:clamp(46px, 13vw, 58px); aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  filter:drop-shadow(0 3px 6px rgba(140,40,70,.35));
+}
+.seal-half{ position:absolute; inset:0; transition:transform .55s ease, opacity .55s ease; }
+.seal-half svg{ width:100%; height:100%; display:block; }
+.seal-left{ clip-path:inset(0 50% 0 0); }
+.seal-right{ clip-path:inset(0 0 0 50%); }
+.envelope.is-open .seal-left{ transform:translate(-70%,-20%) rotate(-35deg); opacity:0; }
+.envelope.is-open .seal-right{ transform:translate(70%,-20%) rotate(35deg); opacity:0; }
+.envelope-hint{ margin:0; color:var(--ink-soft); font-size:.95rem; text-align:center; min-height:1.5em; }
+
+/* ============================================================
+   LOVE LETTER
+   ============================================================ */
+.letter{ margin-top:2.4rem; }
+.letter[hidden]{ display:none; }
+.letter-inner{
+  position:relative;
+  max-width:640px; margin-inline:auto;
+  padding:clamp(1.4rem, 6vw, 2.8rem);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(232,117,141,.05), transparent 42%),
+    radial-gradient(circle at 85% 75%, rgba(201,184,232,.08), transparent 46%),
+    radial-gradient(rgba(184,67,106,.05) 1px, transparent 1.6px),
+    var(--paper);
+  background-size:auto, auto, 15px 15px, auto;
+  box-shadow:var(--shadow);
+  opacity:0; transform:translateY(30px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.letter.is-open .letter-inner{ opacity:1; transform:none; }
+.letter-inner::after{
+  content:""; position:absolute; inset:8px; border:1px dashed rgba(184,67,106,.18);
+  border-radius:12px; pointer-events:none;
+}
+.letter-doodle{ position:absolute; top:12px; right:16px; width:34px; color:var(--heart); opacity:.5; }
+.letter-title{ font-size:clamp(1.9rem, 7.5vw, 2.6rem); text-align:center; margin-bottom:.25rem; }
+.letter-greeting{ text-align:center; font-family:var(--font-hand); font-size:1.35rem; color:var(--lavender-deep); margin-bottom:1.25rem; }
+.letter-body{ max-height:min(52vh, 420px); overflow-y:auto; padding-right:.35rem; scrollbar-width:thin; }
+.letter-body p{
+  opacity:0; transform:translateY(10px);
+  transition:opacity .6s ease, transform .6s ease;
+  margin-bottom:1rem;
+}
+.letter-body p.is-shown{ opacity:1; transform:none; }
+.letter-actions{ display:flex; justify-content:center; margin:.5rem 0 1.25rem; }
+.letter-sign{ text-align:right; margin:0; }
+.letter-sign p{ margin:0; }
+.letter-sign .sign-label{ color:var(--ink-soft); font-size:.95rem; }
+.letter-sign .sign-name{ font-family:var(--font-hand); font-size:1.9rem; color:var(--pink-deep); line-height:1.2; }
+/* ============================================================
+   FLOWER GARDEN
+   ============================================================ */
+.garden{ position:relative; overflow:hidden; }
+.garden-bed{
+  position:relative; z-index:1;
+  display:flex; align-items:flex-end; justify-content:center;
+  gap:clamp(.15rem, 1.6vw, .9rem);
+  margin-top:1.5rem;
+}
+.flower{
+  width:clamp(44px, 13.5vw, 88px);
+  flex:0 0 auto;
+  transform-origin:50% 100%;
+  animation:sway var(--sway-dur, 5s) ease-in-out infinite alternate;
+  animation-delay:var(--sway-delay, 0s);
+}
+.flower svg{ width:100%; height:auto; display:block; }
+.garden-ground{
+  position:relative; z-index:0;
+  height:26px; margin-top:-10px;
+  background:linear-gradient(#b9dfb2, #93c48f);
+  border-radius:999px 999px 20px 20px;
+}
+.garden-caption{
+  text-align:center; font-family:var(--font-hand);
+  font-size:clamp(1.35rem, 5.5vw, 1.8rem); color:var(--pink-deep);
+  margin:1.75rem auto .35rem; max-width:30rem;
+}
+.garden-caption-sub{ text-align:center; color:var(--ink-soft); font-size:.95rem; margin:0 auto; max-width:30rem; }
+
+/* ambient petals & sparkles (garden) */
+.ambient{ position:absolute; pointer-events:none; z-index:0; }
+.ambient-petal{ color:var(--pink); opacity:.75; animation:petalFall var(--fall-dur, 9s) linear infinite; animation-delay:var(--fall-delay, 0s); }
+.ambient-petal svg{ width:100%; height:auto; display:block; }
+.sparkle{ color:#f2c464; opacity:0; animation:twinkle var(--tw-dur, 5s) ease-in-out infinite; animation-delay:var(--tw-delay, 0s); }
+@keyframes petalFall{
+  0%{ transform:translate3d(0,-8vh,0) rotate(0deg); opacity:0; }
+  8%{ opacity:.75; }
+  90%{ opacity:.5; }
+  100%{ transform:translate3d(var(--drift, 30px), 105vh, 0) rotate(320deg); opacity:0; }
+}
+@keyframes twinkle{
+  0%,100%{ opacity:0; transform:scale(.6); }
+  50%{ opacity:.85; transform:scale(1); }
+}
+
+/* ============================================================
+   TIMELINE / SCRAPBOOK
+   ============================================================ */
+.timeline{ list-style:none; margin:2rem 0 0; padding:0; position:relative; display:grid; gap:2.6rem; }
+.timeline::before{
+  content:""; position:absolute; left:1.05rem; top:.5rem; bottom:.5rem; width:3px;
+  background:linear-gradient(var(--pink), var(--lavender)); border-radius:3px;
+}
+.memory{
+  position:relative; padding-left:3.1rem;
+  opacity:0; transform:translateY(20px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.memory.is-in{ opacity:1; transform:none; }
+.memory-dot{
+  position:absolute; left:.4rem; top:.65rem; width:1.6rem; height:1.6rem;
+  color:var(--heart);
+  filter:drop-shadow(0 2px 3px rgba(150,60,92,.3));
+}
+.polaroid{
+  background:#fff; padding:.7rem .7rem 1rem;
+  border-radius:10px; box-shadow:var(--shadow-soft);
+  transform:rotate(-1.2deg);
+  max-width:340px;
+}
+.memory:nth-child(even) .polaroid{ transform:rotate(1.4deg); }
+.photo-frame{
+  position:relative; aspect-ratio:4 / 3; border-radius:6px; overflow:hidden;
+  background:linear-gradient(150deg,#ffeef3,#f3ecff);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:.4rem; text-align:center; padding:1rem;
+  border:2px dashed #e8b3c6;
+}
+.photo-frame img{ width:100%; height:100%; object-fit:cover; border-radius:4px; }
+.photo-frame .ph-icon{ width:38px; color:var(--heart); opacity:.75; }
+.photo-frame .ph-text{ font-size:.85rem; color:var(--ink-soft); font-weight:600; }
+.polaroid-caption{ padding:.75rem .35rem 0; }
+.memory-date{
+  display:inline-block; font-size:.8rem; font-weight:700; letter-spacing:.03em;
+  color:var(--lavender-deep); background:rgba(201,184,232,.28);
+  padding:.15rem .7rem; border-radius:999px; margin-bottom:.35rem;
+}
+.memory-title{ font-size:1.5rem; margin:0 0 .2rem; }
+.memory-text{ margin:0; color:var(--ink-soft); font-size:.98rem; }
+/* ============================================================
+   MONTHSARY MESSAGE
+   ============================================================ */
+.monthsary{ position:relative; overflow:hidden; }
+.monthsary-card{
+  position:relative; z-index:1; text-align:center;
+  background:linear-gradient(160deg, rgba(255,255,255,.85), rgba(255,243,247,.9));
+  border:1px solid rgba(232,117,141,.25);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:clamp(1.5rem, 7vw, 3rem);
+}
+.monthsary-card h2{ font-size:clamp(2.2rem, 9vw, 3.4rem); margin-bottom:.5rem; }
+.count-badge{
+  display:inline-block; font-weight:700; color:var(--pink-deep);
+  background:var(--pink-soft); border-radius:999px;
+  padding:.4rem 1.2rem; margin-bottom:.5rem;
+  font-size:clamp(.95rem, 4vw, 1.1rem);
+}
+.date-chip{
+  display:flex; width:max-content; align-items:center; gap:.45rem;
+  color:var(--lavender-deep); font-weight:600;
+  background:rgba(201,184,232,.25); border-radius:999px;
+  padding:.35rem 1rem; margin:0 auto 1.25rem;
+  font-size:clamp(.9rem, 3.8vw, 1rem);
+}
+.date-chip svg{ width:16px; height:16px; flex:0 0 auto; }
+.monthsary-note{ margin:0 auto; max-width:32rem; color:var(--ink); }
+.float-layer{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+.float-heart{ position:absolute; bottom:-8%; color:var(--heart); opacity:.30; animation:floatUp var(--up-dur, 12s) linear infinite; animation-delay:var(--up-delay, 0s); }
+.float-heart svg{ width:100%; height:auto; display:block; }
+@keyframes floatUp{
+  0%{ transform:translate3d(0,0,0) scale(var(--s,.8)); opacity:0; }
+  12%{ opacity:.32; }
+  85%{ opacity:.18; }
+  100%{ transform:translate3d(var(--drift, 20px), -115vh, 0) scale(var(--s,.8)); opacity:0; }
+}
+@keyframes floaty{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-9px); }
+}
+@keyframes sway{
+  from{ transform:rotate(-3.2deg); }
+  to{ transform:rotate(3.2deg); }
+}
+
+/* ============================================================
+   FINAL SURPRISE
+   ============================================================ */
+.final{ position:relative; overflow:hidden; text-align:center; }
+.final-card{
+  position:relative; z-index:2;
+  max-width:34rem; margin:1.75rem auto 0;
+  background:var(--paper);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:clamp(1.4rem, 6vw, 2.4rem);
+  opacity:0; transform:translateY(18px) scale(.97);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.final-card.is-in{ opacity:1; transform:none; }
+.final-card .final-label{ font-family:var(--font-hand); font-size:1.3rem; color:var(--lavender-deep); margin:0 0 .5rem; }
+.final-message{ font-size:clamp(1.1rem, 4.6vw, 1.3rem); color:var(--ink); white-space:pre-line; margin:0 0 1.25rem; }
+.final-close{ font-family:var(--font-hand); font-size:1.7rem; color:var(--pink-deep); margin:0; }
+.burst-layer{ position:absolute; inset:0; z-index:3; pointer-events:none; overflow:hidden; }
+.sparkle-particle{ position:absolute; will-change:transform, opacity; animation:burst var(--bdur, 1.5s) cubic-bezier(.2,.7,.4,1) forwards; }
+.sparkle-particle svg{ width:100%; height:auto; display:block; }
+.pp-heart{ color:var(--heart); }
+.pp-petal{ color:var(--pink); }
+@keyframes burst{
+  0%{ transform:translate3d(0,0,0) rotate(0deg) scale(.4); opacity:0; }
+  12%{ opacity:.95; }
+  100%{ transform:translate3d(var(--bx, 0px), var(--rise, -120px), 0) rotate(var(--rot, 90deg)) scale(1); opacity:0; }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{ text-align:center; padding:2.5rem 1rem 3rem; color:var(--ink-soft); font-size:.95rem; }
+.site-footer .heart-inline{ color:var(--heart); }
+
+/* Pause ambient motion when the tab is hidden */
+body.tab-hidden .flower,
+body.tab-hidden .ambient-petal,
+body.tab-hidden .sparkle,
+body.tab-hidden .float-heart,
+body.tab-hidden .envelope,
+body.tab-hidden .welcome-art,
+body.tab-hidden .welcome .btn{ animation-play-state:paused !important; }
+
+/* ============================================================
+   RESPONSIVE (wider screens: alternating timeline)
+   ============================================================ */
+@media (min-width:720px){
+  .timeline::before{ left:50%; transform:translateX(-50%); }
+  .memory{ padding-left:0; max-width:340px; margin-left:calc(50% + 2.4rem); }
+  .memory::after{
+    content:""; position:absolute; left:-2.4rem; top:.9rem; width:2.4rem; height:3px;
+    background:linear-gradient(90deg, var(--pink), var(--lavender));
+  }
+  .memory-dot{ left:-3.3rem; top:.5rem; }
+  .memory:nth-child(even){ margin-left:0; margin-right:calc(50% + 2.4rem); }
+  .memory:nth-child(even) .polaroid{ margin-left:auto; }
+  .memory:nth-child(even)::after{ left:auto; right:-2.4rem; background:linear-gradient(270deg, var(--pink), var(--lavender)); }
+  .memory:nth-child(even) .memory-dot{ left:auto; right:-3.3rem; }
+}
+
+/* ============================================================
+   REDUCED MOTION — show everything instantly, no particles
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .letter-body p, .memory, .final-card, .letter-inner{ opacity:1 !important; transform:none !important; }
+  .welcome{ animation:none !important; opacity:1 !important; }
+}
+</style>
+</head>
+<body class="is-locked">
+<!-- ============================ WELCOME SCREEN ============================ -->
+<section class="welcome" id="welcome" aria-labelledby="welcomeTitle">
+  <div class="welcome-inner">
+    <div class="welcome-art" aria-hidden="true">
+      <svg viewBox="0 0 220 200">
+        <ellipse cx="110" cy="182" rx="78" ry="10" fill="rgba(184,67,106,.10)" />
+        <!-- left tulip -->
+        <path d="M78 178 C78 150 76 138 78 122" stroke="#5c8a5e" stroke-width="4" fill="none" stroke-linecap="round" />
+        <path d="M78 150 C64 144 58 132 60 122 C72 124 80 138 78 150Z" fill="#9ec99a" />
+        <path d="M64 118 C64 102 69 94 78 94 C87 94 92 102 92 118 C92 128 86 134 78 134 C70 134 64 128 64 118Z" fill="#c9b8e8" />
+        <path d="M78 94 C74 104 74 122 78 134" stroke="#a995d4" stroke-width="2.5" fill="none" />
+        <!-- right daisy -->
+        <path d="M142 178 C142 148 144 136 142 118" stroke="#5c8a5e" stroke-width="4" fill="none" stroke-linecap="round" />
+        <path d="M142 148 C156 142 162 130 160 120 C148 122 140 136 142 148Z" fill="#9ec99a" />
+        <g fill="#fff" stroke="#f3d7e0" stroke-width="1.5">
+          <ellipse cx="142" cy="92" rx="6" ry="12" /><ellipse cx="142" cy="130" rx="6" ry="12" />
+          <ellipse cx="123" cy="111" rx="12" ry="6" /><ellipse cx="161" cy="111" rx="12" ry="6" />
+          <ellipse cx="128.5" cy="97.5" rx="9" ry="6" transform="rotate(-45 128.5 97.5)" />
+          <ellipse cx="155.5" cy="124.5" rx="9" ry="6" transform="rotate(-45 155.5 124.5)" />
+          <ellipse cx="155.5" cy="97.5" rx="9" ry="6" transform="rotate(45 155.5 97.5)" />
+          <ellipse cx="128.5" cy="124.5" rx="9" ry="6" transform="rotate(45 128.5 124.5)" />
+        </g>
+        <circle cx="142" cy="111" r="9" fill="#f2c464" />
+        <!-- big heart -->
+        <path d="M110 78 C96 66 84 56 84 42 C84 32 92 26 100 26 C105 26 109 29 110 33 C111 29 115 26 120 26 C128 26 136 32 136 42 C136 56 124 66 110 78Z" fill="#e8758d" />
+        <path d="M100 34 C96 36 94 39 94 43" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7" />
+        <!-- sparkles -->
+        <path d="M52 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#f2c464" />
+        <path d="M170 52 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5z" fill="#c9b8e8" />
+        <path d="M162 158 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#f4a7bd" />
+      </svg>
+    </div>
+    <h1 id="welcomeTitle">Happy Monthsary, <span class="name" data-bind="herName">[Her Name]</span>!</h1>
+    <p class="welcome-sub" data-bind="welcomeSubtitle">[Write a short sweet subtitle here]</p>
+    <button type="button" class="btn" id="welcomeBtn" aria-label="Open my surprise">Open My Surprise &#10084;</button>
+  </div>
+</section>
+
+<!-- ============================ MAIN SITE ============================ -->
+<main class="site" id="site" hidden>
+
+  <!-- 1. LOVE ENVELOPE + 2. LOVE LETTER -->
+  <section class="section" id="envelope-section" aria-labelledby="envelopeTitle">
+    <div class="section-inner">
+      <h2 class="section-title" id="envelopeTitle">A Little Envelope for You</h2>
+      <p class="section-sub">I made you something. Tap the envelope gently...</p>
+
+      <div class="envelope-wrap">
+        <button type="button" class="envelope" id="envelopeBtn" aria-label="Open the love envelope" aria-expanded="false" aria-controls="letter">
+          <span class="env-back" aria-hidden="true"></span>
+          <span class="env-paper" aria-hidden="true"><span class="env-paper-heart">&#10084;</span></span>
+          <span class="env-front" aria-hidden="true"></span>
+          <span class="env-flap" aria-hidden="true"></span>
+          <span class="env-seal" aria-hidden="true">
+            <span class="seal-half seal-left">
+              <svg viewBox="0 0 32 30"><path d="M16 29C7 22 1 16.5 1 9.6 1 4.9 4.6 1.5 9 1.5c2.8 0 5.4 1.5 7 3.9 1.6-2.4 4.2-3.9 7-3.9 4.4 0 8 3.4 8 8.1 0 6.9-6 12.4-15 19.4z" fill="#c9527c"/></svg>
+            </span>
+            <span class="seal-half seal-right">
+              <svg viewBox="0 0 32 30"><path d="M16 29C7 22 1 16.5 1 9.6 1 4.9 4.6 1.5 9 1.5c2.8 0 5.4 1.5 7 3.9 1.6-2.4 4.2-3.9 7-3.9 4.4 0 8 3.4 8 8.1 0 6.9-6 12.4-15 19.4z" fill="#c9527c"/></svg>
+            </span>
+          </span>
+        </button>
+        <p class="envelope-hint" id="envelopeHint">Tap the envelope to open it &#10084;</p>
+      </div>
+
+      <article class="letter" id="letter" hidden aria-labelledby="letterTitle">
+        <div class="letter-inner">
+          <svg class="letter-doodle" viewBox="0 0 32 30" aria-hidden="true"><path d="M16 29C7 22 1 16.5 1 9.6 1 4.9 4.6 1.5 9 1.5c2.8 0 5.4 1.5 7 3.9 1.6-2.4 4.2-3.9 7-3.9 4.4 0 8 3.4 8 8.1 0 6.9-6 12.4-15 19.4z" fill="currentColor"/></svg>
+          <h3 class="letter-title" id="letterTitle" tabindex="-1">A Letter for You</h3>
+          <p class="letter-greeting">My dearest <span data-bind="herName">[Her Name]</span>,</p>
+          <div class="letter-body" id="letterBody"><!-- paragraphs injected from CONFIG --></div>
+          <div class="letter-actions">
+            <button type="button" class="ghost-btn" id="skipLetterBtn" aria-label="Show the whole letter at once">Show the whole letter at once</button>
+          </div>
+          <footer class="letter-sign">
+            <p class="sign-label">With love,</p>
+            <p class="sign-name" data-bind="myName">[Your Name]</p>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </section>
+  <!-- 3. FLOWER GARDEN -->
+  <section class="section garden" id="garden" aria-labelledby="gardenTitle">
+    <div class="section-inner">
+      <h2 class="section-title" id="gardenTitle">A Little Garden for You</h2>
+      <p class="garden-caption">These flowers are a little reminder of how special you are to me.</p>
+      <p class="garden-caption-sub">P.S. your favorite flowers are <span data-bind="favoriteFlowers">[Her favorite flowers]</span> &#10084;</p>
+      <div class="garden-bed" id="gardenBed" aria-hidden="true"><!-- flowers injected --></div>
+      <div class="garden-ground" aria-hidden="true"></div>
+    </div>
+    <div class="float-layer" id="gardenAmbient" aria-hidden="true"><!-- petals & sparkles injected --></div>
+  </section>
+
+  <!-- 4. OUR LITTLE LOVE STORY -->
+  <section class="section" id="story" aria-labelledby="storyTitle">
+    <div class="section-inner">
+      <h2 class="section-title" id="storyTitle">Our Little Love Story</h2>
+      <p class="section-sub">A few pages from us, kept safe right here.</p>
+      <ol class="timeline" id="timeline"><!-- memories injected --></ol>
+    </div>
+  </section>
+
+  <!-- 5. MONTHSARY MESSAGE -->
+  <section class="section monthsary" id="monthsary" aria-labelledby="monthsaryTitle">
+    <div class="section-inner">
+      <div class="monthsary-card">
+        <h2 id="monthsaryTitle">Happy Monthsary!</h2>
+        <p><span class="count-badge" id="countBadge"><span data-bind="monthsCount">[Number]</span> months of us &#10084;</span></p>
+        <p class="date-chip">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v3M17 2v3M3.5 9h17M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span data-bind="monthsaryDate">[Date]</span>
+        </p>
+        <p class="monthsary-note" data-bind="monthsaryNote">[Write a short heartfelt note here]</p>
+      </div>
+    </div>
+    <div class="float-layer" id="monthsaryHearts" aria-hidden="true"><!-- floating hearts injected --></div>
+  </section>
+
+  <!-- 6. FINAL SURPRISE -->
+  <section class="section final" id="final" aria-labelledby="finalTitle">
+    <div class="section-inner">
+      <h2 class="section-title" id="finalTitle">One Last Surprise</h2>
+      <p class="section-sub">You made it to the end. There is one more thing waiting for you.</p>
+      <button type="button" class="btn" id="finalBtn" aria-label="Reveal the final surprise">Reveal It &#10084;</button>
+
+      <div class="final-card" id="finalCard" hidden>
+        <p class="final-label">...and one last thing I need you to know:</p>
+        <p class="final-message" id="finalMessage">[Hidden final message]</p>
+        <p class="final-close">Forever yours,<br /><span data-bind="myName">[Your Name]</span> &#10084;</p>
+      </div>
+    </div>
+    <div class="burst-layer" id="burstLayer" aria-hidden="true"></div>
+  </section>
+
+  <footer class="site-footer">
+    <p>Made with <span class="heart-inline">&#10084;</span> and lots of love by <span data-bind="myName">[Your Name]</span>.</p>
+  </footer>
+</main>
+<script>
+(function () {
+  "use strict";
+
+  /* ==========================================================
+     CONFIG — EDIT EVERYTHING PERSONAL HERE
+     ----------------------------------------------------------
+     Everything shown on the page comes from this object.
+     Any text in [square brackets] is a placeholder for you to
+     replace. Nothing here is invented — it waits for YOU.
+     ========================================================== */
+  const CONFIG = {
+    herName: "Diane Panes",
+    myName: "Rhenzvy Opada",
+    monthsaryDate: "October 14, 2026",
+    monthsCount: "1",
+    letter: ["Hi baby, it's our first monthsary together^^ and I can't believe how fast time flies, Every moment I spend with you is a treasure and I am so lucky to have you in my life.", "I never expected you to come into my life, and honestly, I never knew I was missing someone like you until you arrived. You came into my life so unexpectedly, but somehow, you made everything feel a little more meaningful.", "You made me realize that there is so much more to life than the things I thought were important. There are moments worth holding onto, dreams worth chasing, and a kind of happiness I didn’t even know I could feel. And somehow, you became a part of all of that.","You are so special to me not just because I love you, but because of the way you make me feel, the way you make ordinary days feel different, and the way just having you in my life makes me want to become a better person.", "I want you to know that I cherish you, I appreciate you, and I’m so grateful that our paths crossed. I may not always find the perfect words to say it, but please know this: you mean more to me than you probably realize.","You are my favorite unexpected chapter, my love, and one of the most beautiful things that has ever happened to me.","I love you more than words can express, and I look forward to creating countless more memories with you. Happy monthsary, my love^^!❤️❤️❤️"],
+    memories: [
+      { date: "October 4, 2026", title: "Our first date", caption: "Our first date will always have a special place in my heart. Being with you made me realize how lucky I am to have someone like you in my life. If I could relive that day a thousand times, I’d still choose you every single time. Here’s to our first date and all the beautiful memories we’ve yet to make together, my love.", photo: "images/466060f7-a616-4725-9d1e-63985ee5645c (1).jpg" },
+
+      { date: "October 10, 2026", title: "Our third meet", caption: "Our third time seeing each other, but somehow, my heart still gets excited like it's the first. Every moment with you becomes a memory I want to keep forever. No matter how many times we meet, I know I'll always look forward to seeing you again, my love.", photo: "images/daef8402-f074-4e62-b76e-76a9556d7cdb.jpg" },
+
+      { date: "October 11, 2026", title: "Our fourth meet (Best day ever)", caption: "One of the happiest days of my life. Seeing you meet my family and spending the rest of the day with you made everything feel so special. If I could keep one day in a little corner of my heart forever, it would be this one^^. I was genuinely the happiest person in the world that day, and no matter how much time passes, I will always cherish every moment of it. Thank you for making that day unforgettable, my love. You have no idea how much it means to me.", photo: "images/56950bd2-f574-42ce-b131-2fcce40f32d7.jpg" },
+      /* Add more memories by copying the line above, e.g.:
+         , { date: "[Date]", title: "[Memory title]", caption: "[Short caption]", photo: "photos/us1.jpg" }
+         `photo` accepts a file path or a data URI. Leave it "" for a cute placeholder frame. */
+    ],
+    favoriteFlowers: "Tulips",
+    finalMessage: "I just want you to know that you are the most important person in my life, and I am so grateful for every moment we share together. You make my heart full, and I can't wait to see what the future holds for us. I love you more than words can express, and I promise to always cherish and support you. Happy monthsary, my love! ❤️❤️❤️",
+
+    /* --- optional copy (also placeholders, edit freely) --- */
+    welcomeSubtitle: "Our first month together, the beginning of a thousand beautiful memories and a love I’ll keep choosing every day. 🌷🌷🌷",
+    monthsaryNote: "Happy first monthsary, my love. You’ve made my days brighter and my heart happier in ways I can’t fully explain. Thank you for coming into my life and giving me a love that feels so special. This is only our first month, but I already look forward to creating countless beautiful memories with you. No matter what comes our way, I hope we continue choosing each other, growing together, and loving each other more every day. You are one of the most beautiful things that has ever happened to me, and I’m so grateful that I get to call you mine. I love you, always.💗💗💗"
+  };
+
+  /* ---------- environment ---------- */
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let reducedMotion = motionQuery.matches;
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.prototype.slice.call((root || document).querySelectorAll(sel));
+
+  /* ---------- reusable inline SVGs (no external images) ---------- */
+  const HEART_SVG =
+    '<svg viewBox="0 0 32 30" aria-hidden="true"><path d="M16 29C7 22 1 16.5 1 9.6 1 4.9 4.6 1.5 9 1.5c2.8 0 5.4 1.5 7 3.9 1.6-2.4 4.2-3.9 7-3.9 4.4 0 8 3.4 8 8.1 0 6.9-6 12.4-15 19.4z" fill="currentColor"/></svg>';
+  const PETAL_SVG =
+    '<svg viewBox="0 0 20 26" aria-hidden="true"><path d="M10 1C15 6 19 11 19 16.5 19 21.5 15 25 10 25S1 21.5 1 16.5C1 11 5 6 10 1z" fill="currentColor"/></svg>';
+  const SPARKLE_SVG =
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.4 7.1L21.5 10l-7.1 2.4L12 19.5 9.6 12.4 2.5 10l7.1-1.9L12 1z" fill="currentColor"/></svg>';
+  const CAM_SVG =
+    '<svg class="ph-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l1.5-2.5h7L17 8h3a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 20 19H4a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 4 8zm8 2.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="currentColor"/></svg>';
+  const PH_TEXT = "[Add a photo here]"; /* placeholder until photo is set */
+
+  /* ---------- bind CONFIG values into [data-bind] spans ---------- */
+  function bindAll() {
+    $$("[data-bind]").forEach((el) => {
+      const key = el.getAttribute("data-bind");
+      if (Object.prototype.hasOwnProperty.call(CONFIG, key)) {
+        el.textContent = CONFIG[key];
+      }
+    });
+    document.title = "Happy Monthsary, " + CONFIG.herName + "!";
+  }
+
+  /* ---------- ambient motion helpers ---------- */
+  function rand(min, max) { return min + Math.random() * (max - min); }
+
+  document.addEventListener("visibilitychange", () => {
+    document.body.classList.toggle("tab-hidden", document.hidden);
+  });
+
+  motionQuery.addEventListener("change", (e) => {
+    reducedMotion = e.matches;
+  });
+
+  /* ==========================================================
+     1. WELCOME SCREEN
+     ========================================================== */
+  const welcome = $("#welcome");
+  const welcomeBtn = $("#welcomeBtn");
+  const site = $("#site");
+
+  function openSite() {
+    site.hidden = false;
+    document.body.classList.remove("is-locked");
+    welcome.classList.add("is-gone");
+    const hideDelay = reducedMotion ? 0 : 560;
+    window.setTimeout(() => { welcome.hidden = true; }, hideDelay);
+    /* move keyboard focus into the journey */
+    const envDelay = reducedMotion ? 0 : 350;
+    window.setTimeout(() => {
+      $("#envelopeBtn").focus({ preventScroll: true });
+      $("#envelope-section").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    }, envDelay);
+  }
+  welcomeBtn.addEventListener("click", openSite);
+
+  /* ==========================================================
+     2. LOVE ENVELOPE (tap / click / keyboard via <button>)
+     ========================================================== */
+  const envelopeBtn = $("#envelopeBtn");
+  const envelopeHint = $("#envelopeHint");
+  const letter = $("#letter");
+  let envelopeOpened = false;
+
+  envelopeBtn.addEventListener("click", () => {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+    envelopeBtn.classList.add("is-open");
+    envelopeBtn.setAttribute("aria-expanded", "true");
+    envelopeHint.textContent = "It is open! Scroll down gently...";
+    window.setTimeout(() => showLetter(), reducedMotion ? 0 : 450);
+  });
+
+  /* ==========================================================
+     3. LOVE LETTER (paragraphs from CONFIG, with skip option)
+     ========================================================== */
+  const letterBody = $("#letterBody");
+  const skipBtn = $("#skipLetterBtn");
+  const letterTitle = $("#letterTitle");
+  const letterParagraphs = [];
+  const revealTimers = [];
+
+  function buildLetter() {
+    const paras = (CONFIG.letter || []).filter((t) => String(t).trim() !== "");
+    paras.forEach((text) => {
+      const p = document.createElement("p");
+      p.textContent = text;
+      letterBody.appendChild(p);
+      letterParagraphs.push(p);
+    });
+    if (reducedMotion) showAllLetter();
+  }
+
+  function showLetter() {
+    letter.hidden = false;
+    /* next frame so the transition runs */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => letter.classList.add("is-open"));
+    });
+    if (reducedMotion) {
+      showAllLetter();
+    } else {
+      letterParagraphs.forEach((p, i) => {
+        revealTimers.push(window.setTimeout(() => p.classList.add("is-shown"), 500 + i * 750));
+      });
+      /* once the last paragraph is in, the skip button is no longer needed */
+      revealTimers.push(window.setTimeout(() => { skipBtn.hidden = true; }, 600 + letterParagraphs.length * 750));
+    }
+    window.setTimeout(() => {
+      letterTitle.focus({ preventScroll: true });
+      letter.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    }, reducedMotion ? 0 : 500);
+  }
+
+  function showAllLetter() {
+    revealTimers.forEach((t) => window.clearTimeout(t));
+    revealTimers.length = 0;
+    letterParagraphs.forEach((p) => p.classList.add("is-shown"));
+    skipBtn.hidden = true;
+  }
+  skipBtn.addEventListener("click", showAllLetter);
+
+  /* ==========================================================
+     4. FLOWER GARDEN (inline SVG flowers, staggered swaying)
+     ========================================================== */
+  const STEM = "#5c8a5e", LEAF = "#9ec99a";
+
+  const FLOWERS = {
+    rose: (
+      '<path d="M40 158 C40 124 38 104 40 84" stroke="' + STEM + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M40 128 C28 121 22 110 24 100 C36 102 42 116 40 128Z" fill="' + LEAF + '"/>' +
+      '<path d="M40 112 C52 105 58 95 57 85 C46 87 40 100 40 112Z" fill="' + LEAF + '"/>' +
+      '<circle cx="40" cy="64" r="19" fill="#f4a7bd"/>' +
+      '<circle cx="40" cy="64" r="12.5" fill="#ef8fae"/>' +
+      '<path d="M40 53c6.5 0 11 4.3 11 9.6S45.8 72 40 72s-11-4.3-11-9.4c0-3.3 2.2-6.2 5.3-7.4" fill="none" stroke="#d9688c" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<circle cx="40" cy="63.5" r="4.2" fill="#d9688c"/>'
+    ),
+    tulip: (
+      '<path d="M40 158 C40 124 42 108 40 90" stroke="' + STEM + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M40 130 C27 124 21 112 23 102 C35 104 42 118 40 130Z" fill="' + LEAF + '"/>' +
+      '<path d="M26 76 C26 58 31 48 40 48 C49 48 54 58 54 76 C54 87 48 94 40 94 C32 94 26 87 26 76Z" fill="#c9b8e8"/>' +
+      '<path d="M40 48 C35 60 35 82 40 94" stroke="#a995d4" stroke-width="2.5" fill="none"/>' +
+      '<path d="M33 52 C31 62 31 82 34 92" stroke="#b7a5dd" stroke-width="2" fill="none"/>'
+    ),
+    daisy: (
+      '<path d="M40 158 C40 122 38 106 40 86" stroke="' + STEM + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M40 126 C53 119 59 108 57 98 C45 100 38 114 40 126Z" fill="' + LEAF + '"/>' +
+      '<g fill="#ffffff" stroke="#f0d9e3" stroke-width="1.6">' +
+      '<ellipse cx="40" cy="56" rx="6.5" ry="13"/><ellipse cx="40" cy="94" rx="6.5" ry="13"/>' +
+      '<ellipse cx="21" cy="75" rx="13" ry="6.5"/><ellipse cx="59" cy="75" rx="13" ry="6.5"/>' +
+      '<ellipse cx="26.5" cy="61.5" rx="10" ry="6.5" transform="rotate(-45 26.5 61.5)"/>' +
+      '<ellipse cx="53.5" cy="88.5" rx="10" ry="6.5" transform="rotate(-45 53.5 88.5)"/>' +
+      '<ellipse cx="53.5" cy="61.5" rx="10" ry="6.5" transform="rotate(45 53.5 61.5)"/>' +
+      '<ellipse cx="26.5" cy="88.5" rx="10" ry="6.5" transform="rotate(45 26.5 88.5)"/></g>' +
+      '<circle cx="40" cy="75" r="10" fill="#f2c464"/>'
+    ),
+    blossom: (
+      '<path d="M40 158 C40 128 41 112 40 96" stroke="#7a6b53" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M40 118 C30 112 25 103 26 95 C36 97 42 108 40 118Z" fill="' + LEAF + '"/>' +
+      '<g transform="translate(40 62)">' +
+      '<g fill="#f8c8d8" stroke="#f0a9c0" stroke-width="1.4">' +
+      '<ellipse cx="0" cy="-17" rx="9" ry="12"/><ellipse cx="16.2" cy="-5.3" rx="9" ry="12" transform="rotate(72 16.2 -5.3)"/>' +
+      '<ellipse cx="10" cy="13.8" rx="9" ry="12" transform="rotate(144 10 13.8)"/>' +
+      '<ellipse cx="-10" cy="13.8" rx="9" ry="12" transform="rotate(216 -10 13.8)"/>' +
+      '<ellipse cx="-16.2" cy="-5.3" rx="9" ry="12" transform="rotate(288 -16.2 -5.3)"/></g>' +
+      '<circle cx="0" cy="0" r="7" fill="#f6a8be"/><circle cx="0" cy="0" r="3" fill="#e8758d"/></g>'
+    )
+  };
+
+  function buildGarden() {
+    const bed = $("#gardenBed");
+    const order = ["rose", "daisy", "tulip", "blossom", "rose", "tulip"];
+    order.forEach((kind, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "flower";
+      wrap.style.setProperty("--sway-dur", (4.2 + (i % 3) * 0.9 + (i % 2) * 0.35).toFixed(2) + "s");
+      wrap.style.setProperty("--sway-delay", (-i * 0.7).toFixed(2) + "s");
+      wrap.innerHTML =
+        '<svg viewBox="0 0 80 160" aria-hidden="true">' + FLOWERS[kind] + "</svg>";
+      bed.appendChild(wrap);
+    });
+
+    if (reducedMotion) return; /* no ambient petals/sparkles in reduced motion */
+    const layer = $("#gardenAmbient");
+    /* 5 falling petals — low density */
+    for (let i = 0; i < 5; i++) {
+      const p = document.createElement("span");
+      p.className = "ambient ambient-petal";
+      p.style.left = (6 + i * 19 + rand(-4, 4)).toFixed(1) + "%";
+      p.style.top = "0";
+      p.style.width = rand(10, 16).toFixed(0) + "px";
+      p.style.setProperty("--fall-dur", rand(9, 15).toFixed(1) + "s");
+      p.style.setProperty("--fall-delay", (-rand(0, 14)).toFixed(1) + "s");
+      p.style.setProperty("--drift", rand(-50, 60).toFixed(0) + "px");
+      p.innerHTML = PETAL_SVG;
+      layer.appendChild(p);
+    }
+    /* 3 occasional sparkles */
+    for (let i = 0; i < 3; i++) {
+      const s = document.createElement("span");
+      s.className = "ambient sparkle";
+      s.style.left = (12 + i * 33 + rand(-6, 6)).toFixed(1) + "%";
+      s.style.top = rand(8, 42).toFixed(0) + "%";
+      s.style.width = rand(12, 18).toFixed(0) + "px";
+      s.style.color = i === 1 ? "#c9b8e8" : "#f2c464";
+      s.style.setProperty("--tw-dur", rand(4.5, 7).toFixed(1) + "s");
+      s.style.setProperty("--tw-delay", (-rand(0, 6)).toFixed(1) + "s");
+      s.innerHTML = SPARKLE_SVG;
+      layer.appendChild(s);
+    }
+  }
+
+  /* ==========================================================
+     5. OUR LITTLE LOVE STORY (timeline from CONFIG.memories)
+     ========================================================== */
+  const timeline = $("#timeline");
+
+  function photoPlaceholder() {
+    const div = document.createElement("div");
+    div.className = "photo-frame";
+    div.innerHTML = CAM_SVG + '<span class="ph-text">' + PH_TEXT + "</span>";
+    return div;
+  }
+
+  function buildTimeline() {
+    (CONFIG.memories || []).forEach((m) => {
+      const li = document.createElement("li");
+      li.className = "memory";
+
+      const dot = document.createElement("span");
+      dot.innerHTML = HEART_SVG;
+      dot.querySelector("svg").setAttribute("class", "memory-dot");
+      li.appendChild(dot);
+
+      const card = document.createElement("div");
+      card.className = "polaroid";
+
+      if (m.photo && String(m.photo).trim() !== "") {
+        const frame = document.createElement("div");
+        frame.className = "photo-frame";
+        const img = document.createElement("img");
+        img.src = m.photo;
+        img.alt = m.title || "A memory photo";
+        img.loading = "lazy";
+        img.addEventListener("error", () => { frame.replaceWith(photoPlaceholder()); });
+        frame.appendChild(img);
+        card.appendChild(frame);
+      } else {
+        card.appendChild(photoPlaceholder());
+      }
+
+      const cap = document.createElement("div");
+      cap.className = "polaroid-caption";
+
+      const date = document.createElement("p");
+      date.className = "memory-date";
+      date.textContent = m.date || "";
+      cap.appendChild(date);
+
+      const h3 = document.createElement("h3");
+      h3.className = "memory-title";
+      h3.textContent = m.title || "";
+      cap.appendChild(h3);
+
+      const p = document.createElement("p");
+      p.className = "memory-text";
+      p.textContent = m.caption || "";
+      cap.appendChild(p);
+
+      card.appendChild(cap);
+      li.appendChild(card);
+      timeline.appendChild(li);
+    });
+  }
+
+  /* fade-in on scroll (instant when reduced motion or no IntersectionObserver) */
+  function observeReveals() {
+    const targets = $$(".memory");
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("is-in"));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    targets.forEach((el) => io.observe(el));
+  }
+
+  /* 5b. floating hearts behind the monthsary card (skipped if reduced) */
+  function buildFloatingHearts() {
+    if (reducedMotion) return;
+    const layer = $("#monthsaryHearts");
+    for (let i = 0; i < 6; i++) {
+      const h = document.createElement("span");
+      h.className = "float-heart";
+      h.style.left = (5 + i * 16 + rand(-3, 3)).toFixed(1) + "%";
+      h.style.width = rand(14, 26).toFixed(0) + "px";
+      h.style.setProperty("--up-dur", rand(11, 17).toFixed(1) + "s");
+      h.style.setProperty("--up-delay", (-rand(0, 15)).toFixed(1) + "s");
+      h.style.setProperty("--drift", rand(-40, 50).toFixed(0) + "px");
+      h.style.setProperty("--s", rand(0.7, 1.25).toFixed(2));
+      h.innerHTML = HEART_SVG;
+      layer.appendChild(h);
+    }
+  }
+
+  /* ==========================================================
+     6. FINAL SURPRISE (reveal + heart/petal burst, capped at 40)
+     ========================================================== */
+  const finalBtn = $("#finalBtn");
+  const finalCard = $("#finalCard");
+  const finalMessage = $("#finalMessage");
+  const burstLayer = $("#burstLayer");
+  let finalShown = false;
+
+  function burst(count) {
+    if (reducedMotion) return;
+    const n = Math.min(count, 40); /* hard cap */
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement("span");
+      el.className = "sparkle-particle " + (i % 2 === 0 ? "pp-heart" : "pp-petal");
+      el.innerHTML = i % 2 === 0 ? HEART_SVG : PETAL_SVG;
+      el.style.left = (8 + Math.random() * 84).toFixed(1) + "%";
+      el.style.bottom = (15 + Math.random() * 45).toFixed(1) + "%";
+      el.style.width = rand(11, 22).toFixed(0) + "px";
+      el.style.setProperty("--bx", rand(-70, 70).toFixed(0) + "px");
+      el.style.setProperty("--rise", rand(-140, -60).toFixed(0) + "px");
+      el.style.setProperty("--rot", rand(-160, 160).toFixed(0) + "deg");
+      el.style.setProperty("--bdur", rand(1.2, 2).toFixed(2) + "s");
+      el.addEventListener("animationend", () => el.remove(), { once: true });
+      burstLayer.appendChild(el);
+    }
+    /* safety cleanup so nothing lingers in the DOM */
+    window.setTimeout(() => {
+      while (burstLayer.firstChild) burstLayer.removeChild(burstLayer.firstChild);
+    }, 2600);
+  }
+
+  finalBtn.addEventListener("click", () => {
+    if (finalShown) return;
+    finalShown = true;
+    finalMessage.textContent = CONFIG.finalMessage;
+    finalCard.hidden = false;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => finalCard.classList.add("is-in"));
+    });
+    finalBtn.hidden = true;
+    burst(36);
+    window.setTimeout(() => {
+      finalCard.setAttribute("tabindex", "-1");
+      finalCard.focus({ preventScroll: true });
+      finalCard.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
+    }, reducedMotion ? 0 : 420);
+  });
+
+  /* ==========================================================
+     INIT
+     ========================================================== */
+  function init() {
+    bindAll();
+    buildLetter();
+    buildGarden();
+    buildTimeline();
+    buildFloatingHearts();
+    observeReveals();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
+
